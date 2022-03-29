@@ -5,12 +5,8 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	// "syscall"
 	"strings"
-	// "io/ioutil"
 	"net/url"
-	// "bytes"
-	// dmp "github.com/sergi/go-diff/diffmatchpatch"
 	humioapi "github.com/humio/cli/api"
 	"github.com/shurcooL/graphql"
 )
@@ -27,7 +23,6 @@ func main() {
 	humioAddress := os.Getenv("HUMIO_ADDRESS")
 	humioToken := os.Getenv("HUMIO_TOKEN")
 	currView := os.Getenv("HUMIO_VIEW")
-	// tmpDir := os.Getenv("TMPDIR")
 
 	addr, err := url.Parse(humioAddress)
 	if err != nil {
@@ -94,31 +89,15 @@ func write_to_file(fileName string, content string) {
 	f.Sync()
 }
 
-func diff_template_files(origin, target string) ([]byte, bool) {
-	// originFile, err := ioutil.ReadFile(origin)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// targetFile, err := ioutil.ReadFile(target)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// dmp := dmp.New()
-	// diffs := dmp.DiffMain(string(originFile), string(targetFile), true)
-	// log.Println(dmp.DiffPrettyText(diffs))
-	
+func diff_template_files(origin, target string) []byte {	
 	cmd := exec.Command("diff", origin, target)
-	cmdOutput, _ := cmd.Output()
-	// if err != nil {
-	// 	log.Println("has err:", err)
-	// 	return nil, false
-	// }
-	if cmdOutput != nil {
-		return cmdOutput, true
+	cmdOutput, err := cmd.Output()
+	if err != nil {
+		log.Println(err)
+		return nil
 	}
-	return nil, false
-
-	// return bytes.Equal(targetFile, originFile)
+	if cmdOutput != nil {
+		return cmdOutput
+	}
+	return nil
 }

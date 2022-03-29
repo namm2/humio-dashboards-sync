@@ -6,6 +6,7 @@ require (
 	github.com/humio/cli v0.29.0
 	github.com/sergi/go-diff v1.2.0
 	github.com/shurcooL/graphql v0.0.0-20181231061246-d48a9a75455f
+	gopkg.in/yaml.v2 v2.2.4
 )
 
 require (
